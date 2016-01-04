@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import boto
-import cloudinit.ec2_utils
 
 def pure_value(values):
     ret = []
@@ -28,7 +27,15 @@ def instance_tag(instance_id):
 
 def metadata():
     #get data from the 169.254.169.254/latest/meta-data
-    metadata = cloudinit.ec2_utils.get_instance_metadata()
+    try:
+        import cloudinit.ec2_utils
+        metadata = cloudinit.ec2_utils.get_instance_metadata()
+    except:
+        import cloudinit.DataSourceEc2
+        ec2 = cloudinit.DataSourceEc2.DataSourceEc2()
+        ec2.get_data()
+        metadata = ec2.metadata
+
     services = metadata.get('services','')
     if services and services.get('domain','') != 'amazonaws.com':
         return
