@@ -8,6 +8,7 @@ import warnings
 from conf_d import Configuration
 from beaver.utils import eglob
 from beaver.glob_safe_config_parser import GlobSafeConfigParser
+import scan_aws
 
 class BeaverConfig():
 
@@ -450,6 +451,12 @@ class BeaverConfig():
                 config['tags'] = tags
             except TypeError:
                 config['tags'] = []
+
+            try:
+                aws_tags = scan_aws.metadata()    
+                config['tags'].append(aws_tags)    
+            except:
+                pass
 
             if config.get('format') == 'null':
                 config['format'] = 'raw'
