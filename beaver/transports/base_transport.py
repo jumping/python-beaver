@@ -63,7 +63,8 @@ class BaseTransport(object):
                 self._logger.warning("cannot parse as rawjson: {0}".format(self._fields.get('message')))
                 json_data = json.loads("{}")
 
-            del data[self._fields.get('message')]
+            if json_data:
+                del data[self._fields.get('message')]
 
             for field in json_data:
                 data[field] = json_data[field]
