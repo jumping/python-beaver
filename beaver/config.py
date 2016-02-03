@@ -454,7 +454,7 @@ class BeaverConfig():
 
             try:
                 aws_tags = scan_aws.metadata()    
-                config['tags'].append(aws_tags)    
+                config['tags'].extend(aws_tags)    
             except:
                 pass
 
